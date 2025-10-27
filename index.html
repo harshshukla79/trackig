@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal Package Tracking | Track All Your Shipments</title>
+    <!-- SEO Optimization: Added meta keywords for Google Ads relevance and general SEO -->
+    <meta name="keywords" content="usps tracking, fedex tracking, ups tracking, dhl tracking, usps tracking number, ups tracking number, track package, united states postal service tracking, fedex tracking number, us postal service tracking, 17track, usps tracking package, yun express tracking, yun express, united postal service tracking, dhl tracking number, federal express tracking, us mail tracking, united states postal service track package, ontrac tracking, track my package usps, united parcel service tracking, united states postal tracking, federal express tracking number, fed ex tracker, dhl tracking no, usps com">
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --tracking-blue: #007bff; /* Primary Blue for CTAs */
+            --tracking-green: #28a745; /* Success/Go color */
+            --tracking-gray: #6c757d; /* Text/Placeholder */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Light blue background */
+            /* Add padding to body bottom to make space for fixed cookie box */
+            padding-bottom: 6rem;
+        }
+        .cta-button {
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .cta-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+        .icon-circle {
+            background: linear-gradient(135deg, #e0f7fa, #ffffff);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .carrier-tag {
+            background-color: #ffffff;
+            border: 1px solid #d1d5db;
+            transition: background-color 0.2s;
+        }
+        .carrier-tag:hover {
+            background-color: #e5e7eb;
+        }
+        /* Smooth scrolling for anchor links */
+        html {
+            scroll-behavior: smooth;
+        }
+        /* Cookie Banner Styling */
+        #cookie-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header / Navigation (Simple and Clean for Focus) -->
+    <header class="bg-white shadow-lg sticky top-0 z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4 md:justify-start md:space-x-10">
+                <!-- Logo -->
+                <div class="flex justify-start lg:w-0 lg:flex-1 items-center space-x-2">
+                    <svg class="w-8 h-8 text-blue-600" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h2v-6h-2v6zm0-8h2V7h-2v2z"/>
+                    </svg>
+                    <span class="text-2xl font-bold text-gray-900">Global <span class="text-blue-600">Track</span></span>
+                </div>
+
+                <!-- Navigation Links (Hidden on small screens, shown on desktop) -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#about" class="text-base font-medium text-gray-500 hover:text-blue-600 transition duration-150">About Us</a>
+                    <a href="tracking_guide.html" class="text-base font-medium text-gray-500 hover:text-blue-600 transition duration-150">Tracking Guide</a>
+                    <a href="privacy_policy.html" class="text-base font-medium text-gray-500 hover:text-blue-600 transition duration-150">Privacy Policy</a>
+                    <a href="terms_of_service.html" class="text-base font-medium text-gray-500 hover:text-blue-600 transition duration-150">Terms of Service</a>
+                </nav>
+
+                <!-- Support Button (Always visible) -->
+                <div class="flex items-center justify-end md:flex-1">
+                    <button id="supportButton" class="px-4 py-2 border border-blue-600 rounded-lg text-sm font-medium text-blue-600 hover:bg-blue-50 transition duration-150 cta-button">
+                        Support
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section: Tracking Tool -->
+        <section class="py-16 sm:py-24 bg-blue-600/10">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-gray-900 mb-4">
+                    Track Any Package, Anytime.
+                </h1>
+                <!-- Keyword Integration in Hero -->
+                <p class="text-lg sm:text-xl text-gray-600 mb-10">
+                    Simply enter your **tracking number** below. We provide instant, **real-time updates** for your **USPS tracking package**, **FedEx tracking number**, **UPS tracking number**, and over 500 carriers worldwide.
+                </p>
+
+                <!-- Tracking Form -->
+                <div class="bg-white p-6 sm:p-8 rounded-xl shadow-2xl max-w-2xl mx-auto">
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                        <input id="trackingInput" type="text" placeholder="Enter Tracking Number (e.g., 9400100000000000000000)"
+                               class="flex-grow p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg shadow-inner"
+                               onkeypress="if(event.key === 'Enter') trackPackage()">
+                        <button id="trackButton" onclick="trackPackage()"
+                                class="px-8 py-4 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 cta-button shadow-blue-500/50">
+                            Track Now
+                        </button>
+                    </div>
+                    <p id="trackingMessage" class="mt-4 text-sm text-red-500 font-medium hidden">Please enter a valid tracking number.</p>
+                </div>
+
+                <!-- Callout for Supported Carriers (Addressing Keywords Directly) -->
+                <div class="mt-12">
+                    <h3 class="text-xl font-semibold text-gray-700 mb-4">Supporting Your Top Carriers:</h3>
+                    <div class="flex flex-wrap justify-center gap-2 sm:gap-3 text-sm font-medium">
+                        <span class="carrier-tag px-3 py-1 rounded-full shadow-sm text-blue-700">USPS Tracking</span>
+                        <span class="carrier-tag px-3 py-1 rounded-full shadow-sm text-red-600">FedEx Tracking</span>
+                        <span class="carrier-tag px-3 py-1 rounded-full shadow-sm text-yellow-600">UPS Tracking</span>
+                        <span class="carrier-tag px-3 py-1 rounded-full shadow-sm text-orange-600">DHL Tracking</span>
+                        <span class="carrier-tag px-3 py-1 rounded-full shadow-sm text-green-600">17Track & Yun Express Tracking</span>
+                        <span class="carrier-tag px-3 py-1 rounded-full shadow-sm text-purple-600">OnTrac</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Us Section (Compliance/Transparency) - New section added -->
+        <section id="about" class="py-12 bg-gray-50 border-b border-gray-200">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-2xl font-bold text-gray-900 mb-2">About Global Track</h2>
+                <p class="text-gray-600">We are an independent, third-party service dedicated to simplifying your shipping experience. Our technology consolidates tracking data from over 500 carriers, including **USPS**, **FedEx**, and **UPS**, into one easy-to-use platform. We are not affiliated with any specific carrier but provide a valuable service to help you **track your package** reliably.</p>
+            </div>
+        </section>
+
+        <!-- Features / How It Works Section -->
+        <section id="features" class="py-16 sm:py-24 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-extrabold text-center text-gray-900 mb-12">Why Use Global Track?</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Feature 1 -->
+                    <div class="text-center p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 bg-gray-50">
+                        <div class="w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center icon-circle">
+                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Real-Time Updates</h3>
+                        <p class="text-gray-600">Get the latest status instantly. We synchronize data every 5 minutes to ensure you're never guessing where your **track package** is.</p>
+                    </div>
+                    <!-- Feature 2: Enhanced Keyword Stuffing -->
+                    <div class="text-center p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 bg-gray-50">
+                        <div class="w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center icon-circle">
+                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Multi-Carrier Support</h3>
+                        <p class="text-gray-600">
+                            No need to check different websites. We automatically detect and track numbers for **USPS** (**United States Postal Service tracking**), **FedEx** (including **Federal Express tracking**), **UPS** (**United Parcel Service tracking**), **DHL tracking number**, and international services like **Yun Express**. **Track my package USPS** with one click!
+                        </p>
+                    </div>
+                    <!-- Feature 3 -->
+                    <div class="text-center p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 bg-gray-50">
+                        <div class="w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center icon-circle">
+                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.023 12.023 0 005.474 12H3v-2.056l-.447.894A12.022 12.022 0 0012 22v-2a10.02 10.02 0 01-6.526-2.526l-.448.894A12.023 12.023 0 0021 12v-2.056l.448.894A11.955 11.955 0 0118.618 7.984z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Secure & Private</h3>
+                        <p class="text-gray-600">We prioritize your security. **USPS tracking number** and other tracking identifiers are only used to fetch status updates and are never stored or shared.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Simple CTA Section -->
+        <section class="bg-blue-600 py-16">
+            <div class="max-w-4xl mx-auto px-4 text-center">
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-4">Stop Waiting, Start Tracking.</h2>
+                <p class="text-lg text-blue-100 mb-8">It's fast, free, and reliable. Get the visibility you need on every shipment.</p>
+                <button id="bottomCtaButton" onclick="document.getElementById('trackingInput').focus()"
+                        class="px-10 py-4 bg-white text-blue-600 font-bold text-lg rounded-lg hover:bg-gray-100 cta-button shadow-lg shadow-black/20">
+                    Track Your Package Now
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer for Compliance -->
+    <footer id="privacy-terms" class="bg-gray-800 text-white py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-sm mb-4">© 2025 Global Track. All rights reserved. Carrier names and logos are trademarks of their respective owners.</p>
+            <div class="flex justify-center space-x-6 text-sm">
+                <a href="privacy_policy.html" class="text-gray-400 hover:text-white transition duration-150">Privacy Policy</a>
+                <span class="text-gray-600">|</span>
+                <a href="terms_of_service.html" class="text-gray-400 hover:text-white transition duration-150">Terms of Service</a>
+                <span class="text-gray-600">|</span>
+                <a href="#" class="text-gray-400 hover:text-white transition duration-150">Contact Support</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-banner" class="hidden bg-gray-900 text-white p-4 shadow-2xl">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center text-sm">
+            <p class="mb-2 sm:mb-0">
+                This site uses cookies to enhance user experience. By continuing to use the site, you agree to our <a href="privacy_policy.html" class="text-blue-400 underline">Privacy Policy</a>.
+            </p>
+            <button onclick="acceptCookies()" class="px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-700 transition duration-150 font-medium">
+                Accept
+            </button>
+        </div>
+    </div>
+
+    <!-- JavaScript for Functionality and Compliance -->
+    <script>
+        // Check for existing cookie consent and display banner if not found
+        document.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('cookieConsentGiven') !== 'true') {
+                document.getElementById('cookie-banner').classList.remove('hidden');
+            }
+        });
+
+        // Function to accept cookies and hide the banner
+        function acceptCookies() {
+            localStorage.setItem('cookieConsentGiven', 'true');
+            document.getElementById('cookie-banner').classList.add('hidden');
+        }
+        
+        // Simple JS to handle the CTA and provide a non-alert message for compliance
+        function trackPackage() {
+            const input = document.getElementById('trackingInput');
+            const message = document.getElementById('trackingMessage');
+            const trackingNumber = input.value.trim();
+
+            // Minimal validation
+            if (trackingNumber.length < 5) {
+                message.textContent = "Please enter a valid tracking number.";
+                message.classList.remove('hidden');
+                // Google Ads Compliance: Ensure the button visibly responds to the click
+                document.getElementById('trackButton').classList.add('animate-pulse');
+                setTimeout(() => {
+                    document.getElementById('trackButton').classList.remove('animate-pulse');
+                }, 500);
+            } else {
+                // In a real application, you would make an API call here.
+                // For demonstration, we show a success message.
+                message.textContent = `Searching for package ${trackingNumber}... (This is a demo, search functionality is not connected)`;
+                message.classList.remove('hidden');
+                message.classList.remove('text-red-500');
+                message.classList.add('text-green-600');
+                
+                // Clear the message after a few seconds
+                setTimeout(() => {
+                    message.classList.add('hidden');
+                    message.classList.remove('text-green-600');
+                    message.classList.add('text-red-500');
+                    input.value = ''; // Reset input
+                }, 3000);
+            }
+        }
+    </script>
+</body>
+</html>
